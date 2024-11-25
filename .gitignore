@@ -4,3 +4,6 @@
 # executables
 a.out
 run
+
+# object files
+*.o
