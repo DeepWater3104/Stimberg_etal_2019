@@ -4,11 +4,7 @@
 #include "LIFneuron.h"
 
 
-<<<<<<< HEAD
 void init_LIFneurons( LIFneurons_t *pop, int32_t num_neurons )
-=======
-void init_LIFNeurons( LIFNeurons_t *pop, int32_t num_neurons )
->>>>>>> f9543f998181f87e86f7bbe7c02612e3f1dd5b65
 {
   pop->num_neurons = num_neurons;
   pop->v         = calloc( sizeof(double ), num_neurons );
@@ -32,11 +28,7 @@ void init_LIFNeurons( LIFNeurons_t *pop, int32_t num_neurons )
 }
 
 
-<<<<<<< HEAD
 void update_LIFneurons( LIFneurons_t *pop )
-=======
-void update_LIFNeurons( LIFNeurons_t *pop )
->>>>>>> f9543f998181f87e86f7bbe7c02612e3f1dd5b65
 {
   /* ODE */
   for( int i=0; i<pop->num_neurons; i++){
@@ -70,7 +62,6 @@ void update_LIFNeurons( LIFNeurons_t *pop )
 }
 
 
-<<<<<<< HEAD
 void simulate( LIFneurons_t *pop )
 {
   //char temp[64];
@@ -98,33 +89,3 @@ void simulate( LIFneurons_t *pop )
 //  simulate( single );
 //  return 0;
 //}
-=======
-void simulate( LIFNeurons_t *pop )
-{
-  char temp[64];
-  FILE *fp;
-  sprintf(temp, "output.dat");
-  fp = fopen(temp, "w");
-
-  double time;
-  for( int t=0; t<NT; t++){
-    fprintf(fp, "%f %f\n", time, pop->v[0]);
-    time = t*DT;
-    update_LIFNeurons( pop );
-  }
-  fprintf(fp, "%f %f\n", time, pop->v[0]);
-  fclose(fp);
-}
-
-int main()
-{
-  LIFNeurons_t *single = calloc( sizeof(LIFNeurons_t), NUM_NEURONS);
-  init_LIFNeurons( single, NUM_NEURONS );
-
-  /* start simulation */
-  single->I_stim[0] = 200;
-  simulate( single );
-
-
-}
->>>>>>> f9543f998181f87e86f7bbe7c02612e3f1dd5b65

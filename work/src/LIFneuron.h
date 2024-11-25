@@ -6,11 +6,7 @@ typedef struct{
   double *I_stim;
   int32_t *spike;
   int32_t *refperiod;
-<<<<<<< HEAD
 }LIFneurons_t;
-=======
-}LIFNeurons_t;
->>>>>>> f9543f998181f87e86f7bbe7c02612e3f1dd5b65
 
 #define SEED ( 100 ) //pseudo-random seed value
 
