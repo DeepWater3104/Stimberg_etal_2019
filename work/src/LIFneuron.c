@@ -2,17 +2,18 @@
 #include <stdio.h>
 #include <SFMT.h>
 #include "LIFneuron.h"
+#include "TMsynapse.h"
 
 
-void init_LIFneurons( LIFneurons_t *pop, int32_t num_neurons )
+void init_LIFneurons( LIFneurons_t *pop )
 {
-  pop->num_neurons = num_neurons;
-  pop->v         = calloc( sizeof(double ), num_neurons );
-  pop->g_ex      = calloc( sizeof(double ), num_neurons );
-  pop->g_in      = calloc( sizeof(double ), num_neurons );
-  pop->I_stim    = calloc( sizeof(double ), num_neurons );
-  pop->spike     = calloc( sizeof(int32_t), num_neurons );
-  pop->refperiod = calloc( sizeof(int32_t), num_neurons );
+  pop->num_neurons = NUM_NEURONS;
+  pop->v         = calloc( NUM_NEURONS, sizeof(double ) );
+  pop->g_ex      = calloc( NUM_NEURONS, sizeof(double ) );
+  pop->g_in      = calloc( NUM_NEURONS, sizeof(double ) );
+  pop->I_stim    = calloc( NUM_NEURONS, sizeof(double ) );
+  pop->spike     = calloc( NUM_NEURONS, sizeof(int32_t) );
+  pop->refperiod = calloc( NUM_NEURONS, sizeof(int32_t) );
 
   sfmt_t prng;
   sfmt_init_gen_rand(&prng, SEED);
@@ -60,32 +61,3 @@ void update_LIFneurons( LIFneurons_t *pop )
   }
 
 }
-
-
-void simulate( LIFneurons_t *pop )
-{
-  //char temp[64];
-  //FILE *fp;
-  //sprintf(temp, "output.dat");
-  //fp = fopen(temp, "w");
-
-  double time;
-  for( int t=0; t<NT; t++){
-    //fprintf(fp, "%f %f\n", time, pop->v[0]);
-    time = t*DT;
-    update_LIFneurons( pop );
-  }
-  //fprintf(fp, "%f %f\n", time, pop->v[0]);
-  //fclose(fp);
-}
-
-//int main()
-//{
-//  LIFneurons_t *single = calloc( sizeof(LIFneurons_t), NUM_NEURONS);
-//  init_LIFneurons( single, NUM_NEURONS );
-//
-//  /* start simulation */
-//  single->I_stim[0] = 200;
-//  simulate( single );
-//  return 0;
-//}

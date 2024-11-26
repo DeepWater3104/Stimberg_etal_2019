@@ -1,3 +1,5 @@
+#pragma once
+
 typedef struct{
   int32_t num_neurons;
   double *v;
@@ -14,9 +16,13 @@ typedef struct{
 #define N   ( 1000 ) // ms
 #define NT  ( N/DT ) // 
 
-#define C_M ( 198. )     // pF
-#define E_L ( -60. )     // mV
-#define G_L ( 9.99 )     // nS
+#define NUM_NEURONS     ( NUM_EXC_NEURONS + NUM_INH_NEURONS )
+#define NUM_EXC_NEURONS ( 800 )
+#define NUM_INH_NEURONS ( 200 )
+
+#define C_M  ( 198. )     // pF
+#define E_L  ( -60. )     // mV
+#define G_L  ( 9.99 )     // nS
 #define E_EX ( 0.0  )    // mV
 #define E_IN ( -80. )    // mV
 #define TAU_EX ( 5. )    // ms
@@ -27,4 +33,5 @@ typedef struct{
 #define V_THETA ( -50. ) // mV
 #define TAU_REF ( 5.   ) // ms
 
-#define NUM_NEURONS ( 1 )
+void init_LIFneurons( LIFneurons_t *pop );
+void update_LIFneurons( LIFneurons_t *pop );

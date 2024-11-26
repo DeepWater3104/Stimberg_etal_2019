@@ -5,8 +5,9 @@ TARGET = run
 CC = gcc
 #CFLAGS_K = -Ofast -std=c11 -ffj-lst=t -DMPI -Nclang -mcpu=a64fx
 CFLAGS_K = -Wall -O2
-CFILES = simulate.c network.c xu-clancy.c IOput.c
-CFILES = LIFneuron.c
+#CFILES = simulate.c network.c xu-clancy.c IOput.c
+#CFILES = LIFneuron.c
+CFILES = simulate.c TMsynapse.c LIFneuron.c
 
 SFMTDIR = ../misc/SFMT
 SFMTFLAGS = -I$(SFMTDIR) -DSFMT_MEXP=19937
