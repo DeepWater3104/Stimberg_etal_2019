@@ -9,8 +9,8 @@ void init_LIFneurons( LIFneurons_t *pop )
 {
   pop->num_neurons = NUM_NEURONS;
   pop->v         = calloc( NUM_NEURONS, sizeof(double ) );
-  pop->g_ex      = calloc( NUM_NEURONS, sizeof(double ) );
-  pop->g_in      = calloc( NUM_NEURONS, sizeof(double ) );
+  pop->g_exc     = calloc( NUM_NEURONS, sizeof(double ) );
+  pop->g_inh     = calloc( NUM_NEURONS, sizeof(double ) );
   pop->I_stim    = calloc( NUM_NEURONS, sizeof(double ) );
   pop->spike     = calloc( NUM_NEURONS, sizeof(int32_t) );
   pop->refperiod = calloc( NUM_NEURONS, sizeof(int32_t) );
@@ -19,12 +19,15 @@ void init_LIFneurons( LIFneurons_t *pop )
   sfmt_init_gen_rand(&prng, SEED);
   for( int i=0; i<NUM_NEURONS; i++){
     pop->v[i] = E_L + sfmt_genrand_real2( &prng )*(V_THETA - E_L);
+    //pop->v[i] = E_L;
   }
   for( int i=0; i<NUM_NEURONS; i++){
-    pop->g_ex[i] = sfmt_genrand_real2( &prng ) * G_EX;
+    pop->g_exc[i] = sfmt_genrand_real2( &prng ) * G_EXC;
+    //pop->g_exc[i] = 0;
   }
   for( int i=0; i<NUM_NEURONS; i++){
-    pop->g_in[i] = sfmt_genrand_real2( &prng ) * G_IN;
+    pop->g_inh[i] = sfmt_genrand_real2( &prng ) * G_INH;
+    //pop->g_inh[i] = 0;
   }
 }
 
@@ -33,7 +36,8 @@ void update_LIFneurons( LIFneurons_t *pop )
 {
   /* ODE */
   for( int i=0; i<pop->num_neurons; i++){
-    pop->v[i] += DT*(G_L*( E_L - pop->v[i] ) + pop->g_ex[i]*( E_EX - pop->v[i] ) + pop->g_in[i]*( E_IN - pop->v[i] ) + pop->I_stim[i]) / C_M;
+    pop->I_stim[i] = 150;
+    pop->v[i] += DT*(G_L*( E_L - pop->v[i] ) + pop->g_exc[i]*( E_EXC - pop->v[i] ) + pop->g_inh[i]*( E_INH - pop->v[i] ) + pop->I_stim[i]) / C_M;
   }
   /* spike detection */
   for( int i=0; i<pop->num_neurons; i++){
@@ -54,10 +58,10 @@ void update_LIFneurons( LIFneurons_t *pop )
   }
 
   for( int i=0; i<pop->num_neurons; i++){
-    pop->g_ex[i] = DT*(-pop->g_ex[i]/TAU_EX);
+    pop->g_exc[i] = DT*(-pop->g_exc[i]/TAU_EXC);
   }
   for( int i=0; i<pop->num_neurons; i++){
-    pop->g_in[i] = DT*(-pop->g_in[i]/TAU_IN);
+    pop->g_inh[i] = DT*(-pop->g_inh[i]/TAU_INH);
   }
 
 }

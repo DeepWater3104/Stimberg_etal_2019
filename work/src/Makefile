@@ -7,7 +7,7 @@ CC = gcc
 CFLAGS_K = -Wall -O2
 #CFILES = simulate.c network.c xu-clancy.c IOput.c
 #CFILES = LIFneuron.c
-CFILES = simulate.c TMsynapse.c LIFneuron.c
+CFILES = simulate.c TMsynapse.c LIFneuron.c IOput.c
 
 SFMTDIR = ../misc/SFMT
 SFMTFLAGS = -I$(SFMTDIR) -DSFMT_MEXP=19937
