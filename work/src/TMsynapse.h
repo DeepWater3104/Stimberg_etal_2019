@@ -11,8 +11,10 @@ typedef struct{
 #define EXC_CONNECTION_PROB ( 0.05 )
 #define INH_CONNECTION_PROB ( 0.2  )
 
-#define OMEGA_D   ( 2.   )  //
-#define OMEGA_F   ( 3.33 )  //
+#define OMEGA_D   (0.002)  //
+#define OMEGA_F   (0.00333)  //
+//#define OMEGA_D   (2.)  //
+//#define OMEGA_F   (3.33)  //
 #define U_0__STAR ( 0.6  )  //
 #define Y_T       ( 500  )  //
 #define RHO_C     ( 0.005)  //

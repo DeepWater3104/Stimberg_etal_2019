@@ -19,6 +19,7 @@ void init_LIFneurons( LIFneurons_t *pop )
   sfmt_init_gen_rand(&prng, SEED);
   for( int i=0; i<NUM_NEURONS; i++){
     pop->v[i] = E_L + sfmt_genrand_real2( &prng )*(V_THETA - E_L);
+    pop->I_stim[i] = 0;
     //pop->v[i] = E_L;
   }
   for( int i=0; i<NUM_NEURONS; i++){
@@ -35,8 +36,9 @@ void init_LIFneurons( LIFneurons_t *pop )
 void update_LIFneurons( LIFneurons_t *pop )
 {
   /* ODE */
-  for( int i=0; i<pop->num_neurons; i++){
-    pop->I_stim[i] = 150;
+  for( int32_t i=0; i<pop->num_neurons; i++){
+    //if ( i < 100 ) pop->I_stim[i] = 150;
+    if( i < NUM_EXC_NEURONS ) pop->I_stim[i] = 150;
     pop->v[i] += DT*(G_L*( E_L - pop->v[i] ) + pop->g_exc[i]*( E_EXC - pop->v[i] ) + pop->g_inh[i]*( E_INH - pop->v[i] ) + pop->I_stim[i]) / C_M;
   }
   /* spike detection */
@@ -58,10 +60,10 @@ void update_LIFneurons( LIFneurons_t *pop )
   }
 
   for( int i=0; i<pop->num_neurons; i++){
-    pop->g_exc[i] = DT*(-pop->g_exc[i]/TAU_EXC);
+    pop->g_exc[i] += DT*(-pop->g_exc[i]/TAU_EXC);
   }
   for( int i=0; i<pop->num_neurons; i++){
-    pop->g_inh[i] = DT*(-pop->g_inh[i]/TAU_INH);
+    pop->g_inh[i] += DT*(-pop->g_inh[i]/TAU_INH);
   }
 
 }
