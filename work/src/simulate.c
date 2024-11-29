@@ -8,13 +8,19 @@
 extern void timer_start( void );
 extern void time_elapsed( void );
 
-void simulate( LIFneurons_t *pop, TMsynapses_t *syn, SpikeStore_t *spk )
+void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk )
 {
+  char temp[64];
+  sprintf(temp, "temp.dat");
+  FILE *fp;
+  fp = fopen(temp, "w");
+
   double time;
   for( int t=0; t<NT; t++){
     time = t*DT;
+    fprintf(fp, "%f %f %f %f %f %f %f\n", time, pop->v[10], syns[10].r_s[syns[10].post_neuron[1]], syns[10].x_s[syns[10].post_neuron[1]], syns[10].u_s[syns[10].post_neuron[1]], pop->g_inh[10], pop->g_exc[10]);
     update_LIFneurons( pop );
-    update_TMsynapses( syn, pop );
+    update_TMsynapses( syns, pop );
     StoreSpikeOnMemory(pop, spk, time);
   }
   outputSpikeFromMemory( spk );

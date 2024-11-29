@@ -12,6 +12,7 @@ void init_TMsynapses_statevars( TMsynapses_t *syns ){
     syns[pre].r_s = calloc( syns[pre].num_post_neurons, sizeof(double) );
     for( int32_t post_index=0; post_index<syns[pre].num_post_neurons; post_index++ ){
       syns[pre].x_s[post_index] = 1.;
+      syns[pre].u_s[post_index] = 0.;
     }
   }
 }
@@ -87,11 +88,11 @@ void update_TMsynapses( TMsynapses_t *syns, LIFneurons_t *pop )
         syns[pre].u_s[post_index] += U_0__STAR*( 1 - syns[pre].u_s[post_index]);
         syns[pre].r_s[post_index]  = syns[pre].u_s[post_index]*syns[pre].x_s[post_index];
         syns[pre].x_s[post_index] -= syns[pre].r_s[post_index];
-        pop->g_exc[syns[pre].post_neuron[post_index]] += syns[pre].r_s[post_index] * G_EXC;
-        pop->g_inh[syns[pre].post_neuron[post_index]] += syns[pre].r_s[post_index] * G_INH;
-        //pop->g_exc[syns[pre].post_neuron[post_index]] += syns[pre].r_s[post_index] * 0.;
-        //pop->g_inh[syns[pre].post_neuron[post_index]] += syns[pre].r_s[post_index] * 0.;
-        //printf("debug\n");
+        if( pre < NUM_EXC_NEURONS ){
+          pop->g_exc[syns[pre].post_neuron[post_index]] += syns[pre].r_s[post_index] * G_EXC;
+        }else{
+          pop->g_inh[syns[pre].post_neuron[post_index]] += syns[pre].r_s[post_index] * G_INH;
+        }
       }
     }
   }
