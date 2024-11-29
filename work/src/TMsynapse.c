@@ -12,6 +12,7 @@ void init_TMsynapses_statevars( TMsynapses_t *syns ){
     syns[pre].r_s = calloc( syns[pre].num_post_neurons, sizeof(double) );
     for( int32_t post_index=0; post_index<syns[pre].num_post_neurons; post_index++ ){
       syns[pre].x_s[post_index] = 1.;
+      syns[pre].u_s[post_index] = 0.;
     }
   }
 }

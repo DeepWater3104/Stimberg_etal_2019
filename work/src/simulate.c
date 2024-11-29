@@ -14,6 +14,7 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk )
   sprintf(temp, "temp.dat");
   FILE *fp;
   fp = fopen(temp, "w");
+
   double time;
   for( int t=0; t<NT; t++){
     time = t*DT;

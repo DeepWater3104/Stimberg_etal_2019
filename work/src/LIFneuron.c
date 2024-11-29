@@ -38,9 +38,13 @@ void update_LIFneurons( LIFneurons_t *pop )
   /* ODE */
   for( int32_t i=0; i<pop->num_neurons; i++){
     //if ( i < 100 ) pop->I_stim[i] = 150;
-    if( i < NUM_EXC_NEURONS ) pop->I_stim[i] = 150;
+    //if( i < NUM_EXC_NEURONS ) pop->I_stim[i] = 150;
+    pop->I_stim[i] = 150;
     pop->v[i] += DT*(G_L*( E_L - pop->v[i] ) + pop->g_exc[i]*( E_EXC - pop->v[i] ) + pop->g_inh[i]*( E_INH - pop->v[i] ) + pop->I_stim[i]) / C_M;
+    pop->g_exc[i] += DT*(-pop->g_exc[i]/TAU_EXC);
+    pop->g_inh[i] += DT*(-pop->g_inh[i]/TAU_INH);
   }
+
   /* spike detection */
   for( int i=0; i<pop->num_neurons; i++){
     if( pop->v[i] > V_THETA ){
@@ -51,6 +55,7 @@ void update_LIFneurons( LIFneurons_t *pop )
       pop->spike[i] = 0;
     }
   }
+
   /* refractory period */
   for( int i=0; i<pop->num_neurons; i++){
     if( pop->refperiod[i] != 0){
@@ -58,12 +63,4 @@ void update_LIFneurons( LIFneurons_t *pop )
       pop->v[i] = V_RESET;
     }
   }
-
-  for( int i=0; i<pop->num_neurons; i++){
-    pop->g_exc[i] += DT*(-pop->g_exc[i]/TAU_EXC);
-  }
-  for( int i=0; i<pop->num_neurons; i++){
-    pop->g_inh[i] += DT*(-pop->g_inh[i]/TAU_INH);
-  }
-
 }
