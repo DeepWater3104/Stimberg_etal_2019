@@ -40,13 +40,13 @@ int main( void ){
   init_LIFneurons( neurons  );
 
   char temp[64];
-  sprintf(temp, "spike.dat");
+  sprintf(temp, "../data/spike.dat");
   spk->fp = fopen(temp, "w");
   spk->spike_time = calloc( MAX_STORE_SPIKE, sizeof(double)  );
   spk->neuron     = calloc( MAX_STORE_SPIKE, sizeof(int32_t) );
   spk->num_spikes = 0;
 
-  sprintf(temp, "timeseries.bin");
+  sprintf(temp, "../data/timeseries.bin");
   tmseries->fp = fopen(temp, "wb");
   tmseries->num_vars = 6;
   tmseries->time  = calloc( MAX_STORE_DAT, sizeof(double));

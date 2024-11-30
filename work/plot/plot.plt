@@ -2,10 +2,10 @@
 
 set terminal pngcairo size 1200, 600
 set nokey
-set output 'neuron-E-Ibalance.png'
+set output "../figure/fig.png'
 
 loadfile1 = sprintf("../data/spike.dat");
-loadfile2 = sprintf("../data/timeseries.dat");
+loadfile2 = sprintf("../data/timeseries.bin");
 
 # Set the layout: 2 rows, 3 columns
 #set multiplot layout 2, 3 margins 0.1, 0.9 spacing 0.05

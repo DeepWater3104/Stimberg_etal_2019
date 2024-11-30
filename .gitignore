@@ -7,3 +7,6 @@ run
 
 # object files
 *.o
+
+# simulation records
+record/
