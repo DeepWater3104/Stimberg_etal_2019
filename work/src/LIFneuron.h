@@ -29,11 +29,11 @@ typedef struct{
 #define E_INH ( -80. )    // mV
 #define TAU_EXC ( 5. )    // ms
 #define TAU_INH ( 10. )    // ms
-#define G_EXC ( 0.050 )      // nS
-#define G_INH ( 1.    )      // nS
+//#define G_EXC ( 0.050 )      // nS
+//#define G_INH ( 1.    )      // nS
 #define V_RESET ( -60. ) // mV
 #define V_THETA ( -50. ) // mV
 #define TAU_REF ( 5.   ) // ms
 
-void init_LIFneurons( LIFneurons_t *pop );
+void init_LIFneurons( LIFneurons_t *pop, double G_EXC, double G_INH );
 void update_LIFneurons( LIFneurons_t *pop );

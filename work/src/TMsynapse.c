@@ -78,7 +78,7 @@ void init_TMsynapses( TMsynapses_t *syns )
   init_TMsynapses_statevars( syns );
 }
 
-void update_TMsynapses( TMsynapses_t *syns, LIFneurons_t *pop )
+void update_TMsynapses( TMsynapses_t *syns, LIFneurons_t *pop, double G_EXC, double G_INH )
 {
   for( int32_t pre=0; pre<NUM_NEURONS; pre++){
     for( int32_t post_index=0; post_index<syns[pre].num_post_neurons; post_index++){

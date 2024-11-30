@@ -8,7 +8,7 @@
 extern void timer_start( void );
 extern void time_elapsed( void );
 
-void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, TimeseriesData_t *tmseries )
+void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, TimeseriesData_t *tmseries, double G_EXC, double G_INH )
 {
   double time;
   double store_value[tmseries->num_vars];
@@ -16,7 +16,7 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, Timeser
     time = t*DT;
 
     update_LIFneurons( pop );
-    update_TMsynapses( syns, pop );
+    update_TMsynapses( syns, pop, G_EXC, G_INH );
 
     StoreSpikeOnMemory(pop, spk, time);
     store_value[0] = pop->v[10];
@@ -30,14 +30,17 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, Timeser
   outputSpikeFromMemory( spk );
 }
 
-int main( void ){
+int main( int argc, char *argv[] ){
   TMsynapses_t *synapses = calloc( NUM_NEURONS, sizeof(TMsynapses_t) );
   LIFneurons_t *neurons = calloc( 1, sizeof(LIFneurons_t) ); 
   SpikeStore_t *spk = (SpikeStore_t *) malloc (sizeof(SpikeStore_t));
   TimeseriesData_t *tmseries = (TimeseriesData_t *) malloc (sizeof(TimeseriesData_t));
 
+  double G_EXC = atof(argv[1]);
+  double G_INH = atof(argv[2]);
+
   init_TMsynapses( synapses );
-  init_LIFneurons( neurons  );
+  init_LIFneurons( neurons, G_EXC, G_INH );
 
   char temp[64];
   sprintf(temp, "../data/spike.dat");
@@ -56,7 +59,7 @@ int main( void ){
   }
   tmseries->num_tmdata = 0;
 
-  simulate( neurons, synapses, spk, tmseries );
+  simulate( neurons, synapses, spk, tmseries, G_EXC, G_INH );
 
   free(synapses);
   free(neurons );

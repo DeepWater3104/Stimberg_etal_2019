@@ -21,4 +21,4 @@ typedef struct{
 #define OMEGA_C   ( 40   )  //
 
 void init_TMsynapses( TMsynapses_t *synapses );
-void update_TMsynapses( TMsynapses_t *syns, LIFneurons_t *pop );
+void update_TMsynapses( TMsynapses_t *syns, LIFneurons_t *pop, double G_EXC, double G_INH );

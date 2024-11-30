@@ -5,7 +5,7 @@
 #include "TMsynapse.h"
 
 
-void init_LIFneurons( LIFneurons_t *pop )
+void init_LIFneurons( LIFneurons_t *pop, double G_EXC, double G_INH )
 {
   pop->num_neurons = NUM_NEURONS;
   pop->v         = calloc( NUM_NEURONS, sizeof(double ) );
