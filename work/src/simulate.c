@@ -7,12 +7,13 @@
 #include "condition.h"
 
 extern void timer_start( void );
-extern void time_elapsed( void );
+extern double timer_elapsed( void );
 
 void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, TimeseriesData_t *tmseries, double G_EXC, double G_INH )
 {
   double time;
   double store_value[tmseries->num_vars];
+  timer_start ();
   for( int t=0; t<NT; t++){
     time = t*DT;
 
@@ -29,6 +30,9 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, Timeser
     StoreTimeseriesOnMemory(tmseries, time, store_value);
   }
   outputSpikeFromMemory( spk );
+  outputTimeseriesFromMemory( tmseries );
+  double time_elapsed = timer_elapsed();
+  printf("Time elapsed:%f sec\n", time_elapsed);
 }
 
 int main( int argc, char *argv[] ){
@@ -46,13 +50,13 @@ int main( int argc, char *argv[] ){
   init_LIFneurons( neurons, G_EXC, G_INH );
 
   char temp[64];
-  sprintf(temp, "../data/spike.dat");
+  sprintf(temp, "../data/%02d_%02d_spike.dat", G_EXC_index, G_INH_index);
   spk->fp = fopen(temp, "w");
   spk->spike_time = calloc( MAX_STORE_SPIKE, sizeof(double)  );
   spk->neuron     = calloc( MAX_STORE_SPIKE, sizeof(int32_t) );
   spk->num_spikes = 0;
 
-  sprintf(temp, "../data/timeseries.bin");
+  sprintf(temp, "../data/%02d_%02d_timeseries.bin", G_EXC_index, G_INH_index);
   tmseries->fp = fopen(temp, "wb");
   tmseries->num_vars = 6;
   tmseries->time  = calloc( MAX_STORE_DAT, sizeof(double));

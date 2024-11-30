@@ -1,26 +1,26 @@
-#! bin/bash
+#!/bin/bash
 
-max_G_EXC=0.1
-max_G_INH=1.
+max_G_EXC=2.
+max_G_INH=2.
 
-num_G_EXC=21
-num_G_INH=21
+num_G_EXC=11
+num_G_INH=11
 
-cat << EOF >> condition.h
+cat << EOF > condition.h
 #define max_G_EXC ( ${max_G_EXC} )
 #define max_G_INH ( ${max_G_INH} )
 #define num_G_EXC ( ${num_G_EXC} )
 #define num_G_INH ( ${num_G_INH} )
 EOF
 
-cat << EOF >> ../plot/plot.plt
+cat << EOF > ../plot/plot.plt
 # Gnuplot script to create a layout with 1 plot on the left and 4 plots on the right
 
 set terminal pngcairo size 1200, 600
 set nokey
 
-do for [G_EXC_index=0:$(({num_G_EXC} - 1)):1]{
-  do for [G_INH_index=0:$(({num_G_INH} - 1)):1]{
+do for [G_EXC_index=0:$((${num_G_EXC} - 1)):1]{
+  do for [G_INH_index=0:$((${num_G_INH} - 1)):1]{
     savefile = sprintf("../figure/%02d_%02d_fig.png", G_EXC_index, G_INH_index);
     set output savefile
     loadfile1 = sprintf("../data/%02d_%02d_spike.dat", G_EXC_index, G_INH_index);
@@ -105,7 +105,7 @@ running_jobs_count() {
   ps r | wc -l
 }
 
-MAX_CONCURRENT_JOBS=16
+MAX_CONCURRENT_JOBS=10
 
 for((G_EXC_index=0; G_EXC_index<$((${num_G_EXC} - 1)); G_EXC_index+=1))
 do
@@ -116,6 +116,8 @@ do
     done
 
     ./run ${G_EXC_index} ${G_INH_index} &
-    sleep 10
   done
 done
+
+cd -
+mv nohup.out $DIR/src/
