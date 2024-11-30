@@ -4,6 +4,7 @@
 #include "LIFneuron.h"
 #include "TMsynapse.h"
 #include "IOput.h"
+#include "condition.h"
 
 extern void timer_start( void );
 extern void time_elapsed( void );
@@ -36,8 +37,10 @@ int main( int argc, char *argv[] ){
   SpikeStore_t *spk = (SpikeStore_t *) malloc (sizeof(SpikeStore_t));
   TimeseriesData_t *tmseries = (TimeseriesData_t *) malloc (sizeof(TimeseriesData_t));
 
-  double G_EXC = atof(argv[1]);
-  double G_INH = atof(argv[2]);
+  int32_t G_EXC_index = atoi(argv[1]);
+  int32_t G_INH_index = atoi(argv[2]);
+  double G_EXC = ( max_G_EXC / (num_G_EXC - 1 ) ) * G_EXC_index;
+  double G_INH = ( max_G_INH / (num_G_INH - 1 ) ) * G_INH_index;
 
   init_TMsynapses( synapses );
   init_LIFneurons( neurons, G_EXC, G_INH );
@@ -63,5 +66,6 @@ int main( int argc, char *argv[] ){
 
   free(synapses);
   free(neurons );
+  printf("simulation ended(G_EXC:%f, G_INH:%f)", G_EXC, G_INH);
   return 0;
 }
