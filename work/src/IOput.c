@@ -3,27 +3,30 @@
 #include "LIFneuron.h"
 #include "IOput.h"
 
-//void outputTimeseriesFromMemory( TimeseriesData *data )
-//{
-//  int i;
-//  for( i=0; i<data->n_data; i++){
-//    fwrite(&data->time[i], sizeof(double), 1, data->fp);
-//    fwrite(&data->value[i], sizeof(double), 1, data->fp);
-//  }
-//  data->n_data = 0;
-//}
-//
-//
-//void StoreTimeseriesOnMemory( TimeseriesData *data, double time, double value )
-//{
-//  if( data->n_data == MAX_STORE_DAT ){
-//    outputTimeseriesFromMemory( data );
-//  } else {
-//    data->time[data->n_data] = time;
-//    data->value[data->n_data] = value;
-//    data->n_data ++;
-//  }
-//}
+void outputTimeseriesFromMemory( TimeseriesData_t *data )
+{
+  for( int32_t t=0; t<data->num_tmdata; t++){
+    fwrite(&data->time[t], sizeof(double), 1, data->fp);
+    for( int32_t i=0; i<data->num_vars; i++){
+      fwrite(&data->value[i][t], sizeof(double), 1, data->fp);
+    }
+  }
+  data->num_tmdata = 0;
+}
+
+
+void StoreTimeseriesOnMemory( TimeseriesData_t *data, double time, double *value )
+{
+  if( data->num_tmdata == MAX_STORE_DAT ){
+    outputTimeseriesFromMemory( data );
+  } else {
+    data->time[data->num_tmdata] = time;
+    for( int32_t i=0; i<data->num_vars; i++){
+      data->value[i][data->num_tmdata] = value[i];
+    }
+    data->num_tmdata ++;
+  }
+}
 
 
 void outputSpikeFromMemory ( SpikeStore_t *spk )
