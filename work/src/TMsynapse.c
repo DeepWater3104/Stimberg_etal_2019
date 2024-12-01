@@ -80,10 +80,17 @@ void init_TMsynapses( TMsynapses_t *syns )
 
 void update_TMsynapses( TMsynapses_t *syns, LIFneurons_t *pop, double G_EXC, double G_INH )
 {
+  #pragma omp simd collapse(2)
   for( int32_t pre=0; pre<NUM_NEURONS; pre++){
     for( int32_t post_index=0; post_index<syns[pre].num_post_neurons; post_index++){
       syns[pre].u_s[post_index] += DT*(-OMEGA_F*syns[pre].u_s[post_index]);
       syns[pre].x_s[post_index] += DT*(OMEGA_D*(1-syns[pre].x_s[post_index]));
+    }
+  }
+
+  #pragma omp parallel for collapse(2)
+  for( int32_t pre=0; pre<NUM_NEURONS; pre++){
+    for( int32_t post_index=0; post_index<syns[pre].num_post_neurons; post_index++){
       if( pop->spike[pre] == 1 ){
         syns[pre].u_s[post_index] += U_0__STAR*( 1 - syns[pre].u_s[post_index]);
         syns[pre].r_s[post_index]  = syns[pre].u_s[post_index]*syns[pre].x_s[post_index];
