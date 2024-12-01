@@ -1,7 +1,7 @@
 #!/bin/bash
 
-max_G_EXC=2.
-max_G_INH=2.
+max_G_EXC=0.2
+max_G_INH=4.0
 
 num_G_EXC=11
 num_G_INH=11
@@ -38,8 +38,8 @@ do for [G_EXC_index=0:$((${num_G_EXC} - 1)):1]{
     set xtics 0, 500, 1000
     set ytics 0, 500, 4000
     set noxtics
-    plot loadfile1 u 1:($2<3200  ? $2 : 1/0) w d ,\
-         loadfile1  u 1:($2>=3200 ? $2 : 1/0) w d 
+    plot loadfile1 u 1:(\$2<3200  ? \$2 : 1/0) w d ,\
+         loadfile1  u 1:(\$2>=3200 ? \$2 : 1/0) w d 
     #plot "spike.dat" using 1:2:(($2 < 3200) ? "blue" : "red") title "Neuron Group" with points pointtype 7 lc variable
     
     set tmargin at screen 0.4
@@ -107,9 +107,9 @@ running_jobs_count() {
 
 MAX_CONCURRENT_JOBS=10
 
-for((G_EXC_index=0; G_EXC_index<$((${num_G_EXC} - 1)); G_EXC_index+=1))
+for((G_EXC_index=0; G_EXC_index<${num_G_EXC}; G_EXC_index+=1))
 do
-  for((G_INH_index=0; G_INH_index<$((${num_G_INH} - 1)); G_INH_index+=1))
+  for((G_INH_index=0; G_INH_index<${num_G_INH}; G_INH_index+=1))
   do
     while (( $(running_jobs_count) >= MAX_CONCURRENT_JOBS )); do
       sleep 1

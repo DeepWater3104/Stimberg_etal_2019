@@ -32,7 +32,7 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, Timeser
   outputSpikeFromMemory( spk );
   outputTimeseriesFromMemory( tmseries );
   double time_elapsed = timer_elapsed();
-  printf("Time elapsed:%f sec\n", time_elapsed);
+  printf("Time elapsed:%f sec ", time_elapsed);
 }
 
 int main( int argc, char *argv[] ){
@@ -70,6 +70,6 @@ int main( int argc, char *argv[] ){
 
   free(synapses);
   free(neurons );
-  printf("simulation ended(G_EXC:%f, G_INH:%f)", G_EXC, G_INH);
+  printf("simulation ended(G_EXC:%f, G_INH:%f)\n", G_EXC, G_INH);
   return 0;
 }
