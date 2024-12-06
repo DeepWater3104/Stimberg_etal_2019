@@ -120,6 +120,13 @@ cat << EOF > ../slide/main.tex
   \ifnum#1<10 0#1\else #1\fi%
 }
 
+\newcommand{\multiplyFunction}[2]{
+  \FPset\x{#1}
+  \FPmul\x\x{#2}
+  \FPround\x\x{2}
+  \x
+}
+
 \newcommand{\generateframe}[2]{
 
   \begin{frame}
