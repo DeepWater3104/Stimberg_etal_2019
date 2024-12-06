@@ -6,8 +6,8 @@ max_G_INH=4.0
 num_G_EXC=11
 num_G_INH=11
 
-step_G_EXC=$( echo "scale=2; ${max_G_EXC}/(${num_G_EXC}-1)" | bc )
-step_G_INH=$( echo "scale=2; ${max_G_INH}/(${num_G_INH}-1)" | bc )
+step_G_EXC=$( echo "scale=5; ${max_G_EXC}/(${num_G_EXC}-1)" | bc )
+step_G_INH=$( echo "scale=5; ${max_G_INH}/(${num_G_INH}-1)" | bc )
 
 cat << EOF > condition.h
 #define max_G_EXC ( ${max_G_EXC} )
@@ -29,8 +29,8 @@ do for [G_EXC_index=0:$((${num_G_EXC} - 1)):1]{
     loadfile1 = sprintf("../data/%02d_%02d_spike.dat", G_EXC_index, G_INH_index);
     loadfile2 = sprintf("../data/%02d_%02d_timeseries.bin", G_EXC_index, G_INH_index);
     
-    G_EXC=step_G_EXC*G_EXC_index
-    G_INH=step_G_INH*G_INH_index
+    G_EXC=$step_G_EXC*G_EXC_index
+    G_INH=$step_G_INH*G_INH_index
     title_string = sprintf("G_EXC:%f G_INH:%f", G_EXC, G_INH);
 
     set title title_string

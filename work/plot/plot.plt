@@ -10,6 +10,11 @@ do for [G_EXC_index=0:10:1]{
     loadfile1 = sprintf("../data/%02d_%02d_spike.dat", G_EXC_index, G_INH_index);
     loadfile2 = sprintf("../data/%02d_%02d_timeseries.bin", G_EXC_index, G_INH_index);
     
+    G_EXC=.02000*G_EXC_index
+    G_INH=.40000*G_INH_index
+    title_string = sprintf("G_EXC:%f G_INH:%f", G_EXC, G_INH);
+
+    set title title_string
     # Set the layout: 2 rows, 3 columns
     #set multiplot layout 2, 3 margins 0.1, 0.9 spacing 0.05
     set multiplot layout 2, 3
@@ -22,15 +27,15 @@ do for [G_EXC_index=0:10:1]{
     set xtics 0, 500, 1000
     set ytics 0, 500, 4000
     set noxtics
-    plot loadfile1 u 1:(<3200  ?  : 1/0) w d ,         loadfile1  u 1:(>=3200 ?  : 1/0) w d 
-    #plot "spike.dat" using 1:2:(( < 3200) ? "blue" : "red") title "Neuron Group" with points pointtype 7 lc variable
+    plot loadfile1 u 1:($2<3200  ? $2 : 1/0) w d ,
+         loadfile1 u 1:($2>=3200 ? $2 : 1/0) w d 
     
     set tmargin at screen 0.4
     set bmargin at screen 0.1
     set xtics
     set ytics 0, 5, 10
     filter(x,y)=floor(x/y)*y
-    plot loadfile1 u (filter(,1)):(1) smooth frequency w l
+    plot loadfile1 u (filter($1,1)):(1) smooth frequency w l
     
     # Reset margins for the four plots on the right
     set lmargin at screen 0.5
