@@ -1,0 +1,69 @@
+\RequirePackage{plautopatch}
+\documentclass[dvipdfmx]{beamer}
+
+\usetheme{Copenhagen}
+\usepackage{graphicx}
+\setbeamertemplate{navigation symbols}{}
+%\renewcommand{\kanjfamilydefault}{\gtdefaut}
+%\usefonttheme{professionalfonts}
+%\usepackage{deluxe}{otf}
+%\usepackage[noalphabet]{pxchfon}
+%\setboldgothicfont{HaranoAjiGothic-Medium.otf}
+%\usepackage[format=plain, labelformat=simple, labelse=period]
+\usepackage{amsmath}
+\usepackage{siunitx}
+%\usepackage{calculation}
+\usepackage{pgffor}
+\usepackage{ifthen}
+\usepackage{fp}
+\usepackage[export]{adjustbox}
+%\usepackage{mathtool}
+
+%\documentclass{article}
+
+\newcommand{\zeropad}[1]{%
+  \ifnum#1<10 0#1\else #1\fi%
+}
+
+\newcommand{\generateframe}[2]{
+
+  \begin{frame}
+    \frametitle{結果}
+    \def\filefig{../figure/\zeropad{#1}_\zeropad{#2}_fig.png}
+    \begin{columns}[T]
+        \includegraphics[width=\linewidth]{\filefig}
+    \end{columns}
+  \end{frame}
+}
+
+
+\makeatletter
+
+\title{
+  Stimberg et al., 2019 再現実装\
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%1st page
+\begin{frame}{シミュレーション条件}
+  \begin{itemize}
+    \item ニューロンモデルは、Leaky integrate-and fire model
+    \item シナプスは、Tsodyks-Markram model
+    \item 古典的なバランスネットワーク(Brunel., 200)と類似したダイナミクスを持つ。
+    \item 詳細は、Stimberg et al., 2019のFigure 1.を参照。
+  \end{itemize}
+\end{frame}
+
+\foreach \G_EXC_index in {0,...,10} {
+  \foreach \G_INH_index in {0,...,10} {
+    \generateframe{\G_EXC_index}{\G_INH_index}
+  }
+}
+\end{document}
+

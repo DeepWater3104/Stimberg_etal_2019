@@ -123,11 +123,12 @@ cat << EOF > ../slide/main.tex
 \newcommand{\generateframe}[2]{
 
   \begin{frame}
-    \frametitle{結果}
+    \frametitle{
+      \$G_{\rm{EXC}} = \multiplyFunction{${step_G_EXC}{#1}\si{nS}
+       ,G_{\rm{INH}} = \multiplyFunction{${step_G_INH}{#2}\si{nS}$ }
+    }
     \def\filefig{../figure/\zeropad{#1}_\zeropad{#2}_fig.png}
-    \begin{columns}[T]
-        \includegraphics[width=\linewidth]{\filefig}
-    \end{columns}
+    \includegraphics[width=\linewidth]{\filefig}
   \end{frame}
 }
 
