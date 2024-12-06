@@ -91,6 +91,108 @@ do for [G_EXC_index=0:$((${num_G_EXC} - 1)):1]{
 }
 EOF
 
+
+cat << EOF > ../slide/main.tex
+\RequirePackage{plautopatch}
+\documentclass[dvipdfmx]{beamer}
+
+\usetheme{Copenhagen}
+\usepackage{graphicx}
+\setbeamertemplate{navigation symbols}{}
+%\renewcommand{\kanjfamilydefault}{\gtdefaut}
+%\usefonttheme{professionalfonts}
+%\usepackage{deluxe}{otf}
+%\usepackage[noalphabet]{pxchfon}
+%\setboldgothicfont{HaranoAjiGothic-Medium.otf}
+%\usepackage[format=plain, labelformat=simple, labelse=period]
+\usepackage{amsmath}
+\usepackage{siunitx}
+%\usepackage{calculation}
+\usepackage{pgffor}
+\usepackage{ifthen}
+\usepackage{fp}
+\usepackage[export]{adjustbox}
+%\usepackage{mathtool}
+
+%\documentclass{article}
+
+\newcommand{\zeropad}[1]{%
+  \ifnum#1<10 0#1\else #1\fi%
+}
+
+\newcommand{\generateframe}[3]{
+
+  \begin{frame}
+    \frametitle{
+      \$P_{connect} = \multiplyFunction{0${step_CON_P}}{#2}
+      RANGE_{connect} = #3$
+    }
+
+    %\def\fileraster{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_\zeropad{#4}_raster.png}
+    \def\fileraster{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_raster.png}
+  
+    %\def\filemembraneA{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_000_neuron.png}
+  
+    %\def\filemembraneB{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_042_neuron.png}
+  
+    %\def\fileLFP{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_LFP.png}
+  
+    %\def\filefreq{../figure/LFP_freq/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_freq.png}
+
+        \begin{columns}[T]
+      \begin{column}{0.5\linewidth}
+        \includegraphics[width=\linewidth, left]{\fileraster}
+        \includegraphics[width=\linewidth, left]{\filemembraneA}
+        \includegraphics[width=\linewidth, left]{\filemembraneB}
+        \includegraphics[width=\linewidth, left]{\fileLFP}
+      \end{column}
+
+      \begin{column}{0.5\linewidth}
+        \centering
+        %\includegraphics[width=0.9\linewidth]{\filePCC}
+        \includegraphics[width=0.9\linewidth]{\filefreq}
+      \end{column}
+    \end{columns}
+
+
+
+  \end{frame}
+}
+
+
+\makeatletter
+
+\title{
+  Stimberg et al., 2019 再現実装\\
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%1st page
+\begin{frame}{シミュレーション条件}
+  \begin{itemize}
+    \item ニューロンモデルは、Leaky integrate-and fire model
+    \item シナプスは、Tsodyks-Markram model
+    \item 古典的なバランスネットワーク(Brunel., 200)と類似したダイナミクスを持つ。
+    \item 詳細は、Stimberg et al., 2019のFigure 1.を参照。
+  \end{itemize}
+\end{frame}
+
+\foreach \G_EXC_index in {0,...,$((${num_G_EXC} - 1))} {
+  \foreach \G_INH_index in {0,...,$((${num_G_INH} - 1))} {
+    \generateframe{\G_EXC_index}{\G_INH_index}
+  }
+}
+\end{document}
+
+EOF
+
+
 TMP="../../record/results_"
 DATE=`date '+%Y-%m-%d-'`
 TIME=`date '+%H-%M'`
