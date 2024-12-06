@@ -13,12 +13,14 @@ typedef struct{
 #define SEED ( 100 ) //pseudo-random seed value
 
 #define DT  ( 0.01 ) // ms
-#define N   ( 1000 ) // ms
+#define N   ( 10000 ) // ms
 #define NT  ( N/DT ) // 
 
 #define NUM_NEURONS     ( NUM_EXC_NEURONS + NUM_INH_NEURONS )
 //#define NUM_EXC_NEURONS ( 800 )
 //#define NUM_INH_NEURONS ( 200 )
+//#define NUM_EXC_NEURONS ( 40000 )
+//#define NUM_INH_NEURONS ( 10000 )
 #define NUM_EXC_NEURONS ( 3200 )
 #define NUM_INH_NEURONS ( 800 )
 

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <SFMT.h>
 #include <stdint.h>
+#include <omp.h>
 #include "TMsynapse.h"
 #include "LIFneuron.h"
 

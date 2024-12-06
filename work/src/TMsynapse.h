@@ -8,6 +8,8 @@ typedef struct{
   double *r_s;
 }TMsynapses_t;
 
+//#define EXC_CONNECTION_PROB ( 0.004 )
+//#define INH_CONNECTION_PROB ( 0.016  )
 #define EXC_CONNECTION_PROB ( 0.05 )
 #define INH_CONNECTION_PROB ( 0.2  )
 
