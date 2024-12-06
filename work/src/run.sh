@@ -120,42 +120,14 @@ cat << EOF > ../slide/main.tex
   \ifnum#1<10 0#1\else #1\fi%
 }
 
-\newcommand{\generateframe}[3]{
+\newcommand{\generateframe}[2]{
 
   \begin{frame}
-    \frametitle{
-      \$P_{connect} = \multiplyFunction{0${step_CON_P}}{#2}
-      RANGE_{connect} = #3$
-    }
-
-    %\def\fileraster{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_\zeropad{#4}_raster.png}
-    \def\fileraster{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_raster.png}
-  
-    %\def\filemembraneA{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_000_neuron.png}
-  
-    %\def\filemembraneB{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_042_neuron.png}
-  
-    %\def\fileLFP{../figure/membrane/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_LFP.png}
-  
-    %\def\filefreq{../figure/LFP_freq/\zeropad{#1}_\zeropad{#2}_\zeropad{#3}_freq.png}
-
-        \begin{columns}[T]
-      \begin{column}{0.5\linewidth}
-        \includegraphics[width=\linewidth, left]{\fileraster}
-        \includegraphics[width=\linewidth, left]{\filemembraneA}
-        \includegraphics[width=\linewidth, left]{\filemembraneB}
-        \includegraphics[width=\linewidth, left]{\fileLFP}
-      \end{column}
-
-      \begin{column}{0.5\linewidth}
-        \centering
-        %\includegraphics[width=0.9\linewidth]{\filePCC}
-        \includegraphics[width=0.9\linewidth]{\filefreq}
-      \end{column}
+    \frametitle{結果}
+    \def\filefig{../figure/\zeropad{#1}_\zeropad{#2}_fig.png}
+    \begin{columns}[T]
+        \includegraphics[width=\linewidth]{\filefig}
     \end{columns}
-
-
-
   \end{frame}
 }
 
