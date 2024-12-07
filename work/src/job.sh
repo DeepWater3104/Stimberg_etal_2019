@@ -10,4 +10,9 @@
 #PJM -s
 #PJM --spath ../job_output/stats.%j.stats
 
-./run  10 10
+. /vol0004/apps/oss/spack/share/spack/setup-env.sh
+
+module load lang
+export OMP_NUM_THREAD=12
+export PLE_MPI_STD_EMPTYFILE=off
+./run 10 10

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <omp.h>
 #include "LIFneuron.h"
 #include "TMsynapse.h"
 #include "IOput.h"
@@ -36,13 +37,13 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, Timeser
 }
 
 int main( int argc, char *argv[] ){
-  omp_set_num_thread( 12 );
+  printf("debug:start1\n");
+  omp_set_num_threads ( 12 );
   TMsynapses_t *synapses = calloc( NUM_NEURONS, sizeof(TMsynapses_t) );
   LIFneurons_t *neurons = calloc( 1, sizeof(LIFneurons_t) ); 
   SpikeStore_t *spk = (SpikeStore_t *) malloc (sizeof(SpikeStore_t));
   TimeseriesData_t *tmseries = (TimeseriesData_t *) malloc (sizeof(TimeseriesData_t));
 
-  printf("simulation start(G_EXC:%f, G_INH:%f)\n", G_EXC, G_INH);
   int32_t G_EXC_index = atoi(argv[1]);
   int32_t G_INH_index = atoi(argv[2]);
   double G_EXC = ( max_G_EXC / (num_G_EXC - 1 ) ) * G_EXC_index;
@@ -50,6 +51,8 @@ int main( int argc, char *argv[] ){
 
   init_TMsynapses( synapses );
   init_LIFneurons( neurons, G_EXC, G_INH );
+
+  printf("debug:initialized2\n");
 
   char temp[64];
   sprintf(temp, "../data/%02d_%02d_spike.dat", G_EXC_index, G_INH_index);
@@ -69,6 +72,8 @@ int main( int argc, char *argv[] ){
     tmseries->value[i] = calloc( MAX_STORE_DAT, sizeof(double) );
   }
   tmseries->num_tmdata = 0;
+
+  printf("debug:allocatedmemory for IOput\n");
 
   simulate( neurons, synapses, spk, tmseries, G_EXC, G_INH );
 
