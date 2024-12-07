@@ -31,7 +31,7 @@ cat << EOF > job.sh
 
 #PJM --rsc-list "node=1"
 #PJM -g hp200139
-#PJM --rsc-list "elapse=01:00:00"
+#PJM --rsc-list "elapse=00:10:00"
 #PJM -m b,e
 #PJM --mail-list "fukami.satoshi760@mail.kyutech.jp"
 #PJM -j

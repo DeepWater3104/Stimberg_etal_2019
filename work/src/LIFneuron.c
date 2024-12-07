@@ -38,9 +38,11 @@ void update_LIFneurons( LIFneurons_t *pop )
   for( int32_t i=0; i<pop->num_neurons; i++){
     pop->v[i] += DT*(G_L*( E_L - pop->v[i] ) + pop->g_exc[i]*( E_EXC - pop->v[i] ) + pop->g_inh[i]*( E_INH - pop->v[i] ) + pop->I_stim[i]) / C_M;
   }
+  #pragma omp simd
   for( int32_t i=0; i<pop->num_neurons; i++){
     pop->g_exc[i] += DT*(-pop->g_exc[i]/TAU_EXC);
   }
+  #pragma omp simd
   for( int32_t i=0; i<pop->num_neurons; i++){
     pop->g_inh[i] += DT*(-pop->g_inh[i]/TAU_INH);
   }
