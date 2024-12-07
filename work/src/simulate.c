@@ -52,12 +52,14 @@ int main( int argc, char *argv[] ){
   char temp[64];
   sprintf(temp, "../data/%02d_%02d_spike.dat", G_EXC_index, G_INH_index);
   spk->fp = fopen(temp, "w");
+  if( spk->fp == NULL ) printf("cannot open FIle\n");
   spk->spike_time = calloc( MAX_STORE_SPIKE, sizeof(double)  );
   spk->neuron     = calloc( MAX_STORE_SPIKE, sizeof(int32_t) );
   spk->num_spikes = 0;
 
   sprintf(temp, "../data/%02d_%02d_timeseries.bin", G_EXC_index, G_INH_index);
   tmseries->fp = fopen(temp, "wb");
+  if( tmseries->fp == NULL ) printf("cannot open FIle\n");
   tmseries->num_vars = 6;
   tmseries->time  = calloc( MAX_STORE_DAT, sizeof(double));
   tmseries->value = calloc( tmseries->num_vars, sizeof(double*));
