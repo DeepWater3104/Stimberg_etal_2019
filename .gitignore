@@ -7,6 +7,7 @@ run
 
 # object files
 *.o
+*.lst
 
 # simulation records
 record/
