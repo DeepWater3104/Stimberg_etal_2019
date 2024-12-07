@@ -62,7 +62,7 @@ void optimize_connection_matrix( TMsynapses_t *syns, int32_t *connections, int32
 void init_TMsynapses( TMsynapses_t *syns )
 {
   /* allocate memory */
-  int32_t *connections = calloc( NUM_NEURONS * NUM_NEURONS, sizeof(int32_t) );
+  int32_t *connections = calloc( NUM_NEURONS, sizeof(int32_t) );
   int32_t *num_post_neurons = calloc( NUM_NEURONS, sizeof(int32_t) );
 
   /* pseudo-number generator */
