@@ -1,12 +1,13 @@
 TARGET = run
 
-#CC = mpifccpx
-#CC = mpicc
-CC = gcc
-#CFLAGS_K = -Ofast -std=c11 -ffj-lst=t -DMPI -Nclang -mcpu=a64fx
-CFLAGS_K = -Wall -O2
-#CFILES = simulate.c network.c xu-clancy.c IOput.c
-#CFILES = LIFneuron.c
+#CC = gcc
+#CFLAGS_K = -Wall -O2
+
+CC = fccpx
+#CFLAGS_K = -Ofast -fopenmp -std=c11 -fvectorize -Rpass=.* -ffj-lst=t -DMPI -Nclang -mcpu=a64fx
+#CFLAGS_K = -Ofast -fopenmp -std=c11 -fvectorize -ffj-lst=t -DMPI -Nclang -mcpu=a64fx
+CFLAGS_K = -Ofast -std=c11 -ffj-lst=t -Nclang -mcpu=a64fx -ffj-fjprof
+
 CFILES = simulate.c TMsynapse.c LIFneuron.c IOput.c
 
 SFMTDIR = ../misc/SFMT

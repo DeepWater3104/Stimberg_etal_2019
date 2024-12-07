@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "fj_tool/fapp.h"
 #include "LIFneuron.h"
 #include "TMsynapse.h"
 #include "IOput.h"
@@ -17,9 +18,15 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, Timeser
   for( int t=0; t<NT; t++){
     time = t*DT;
 
+    fapp_start("sim", 0, 0);
     update_LIFneurons( pop );
-    update_TMsynapses( syns, pop, G_EXC, G_INH );
+    fapp_stop("sim", 0, 0);
 
+    fapp_start("sim", 1, 0);
+    update_TMsynapses( syns, pop, G_EXC, G_INH );
+    fapp_stop("sim", 1, 0);
+
+    fapp_start("sim", 2, 0);
     StoreSpikeOnMemory(pop, spk, time);
     store_value[0] = pop->v[10];
     store_value[1] = syns[10].r_s[syns[10].post_neuron[1]];
@@ -28,14 +35,18 @@ void simulate( LIFneurons_t *pop, TMsynapses_t *syns, SpikeStore_t *spk, Timeser
     store_value[4] = pop->g_inh[10];
     store_value[5] = pop->g_exc[10];
     StoreTimeseriesOnMemory(tmseries, time, store_value);
+    fapp_stop("sim", 2, 0);
   }
+  fapp_start("sim", 2, 0);
   outputSpikeFromMemory( spk );
   outputTimeseriesFromMemory( tmseries );
+  fapp_stop("sim", 2, 0);
   double time_elapsed = timer_elapsed();
   printf("Time elapsed:%f sec ", time_elapsed);
 }
 
 int main( int argc, char *argv[] ){
+  fapp_start("init", 0, 0);
   TMsynapses_t *synapses = calloc( NUM_NEURONS, sizeof(TMsynapses_t) );
   LIFneurons_t *neurons = calloc( 1, sizeof(LIFneurons_t) ); 
   SpikeStore_t *spk = (SpikeStore_t *) malloc (sizeof(SpikeStore_t));
@@ -68,6 +79,7 @@ int main( int argc, char *argv[] ){
   }
   tmseries->num_tmdata = 0;
 
+  fapp_stop("init", 0, 0);
   simulate( neurons, synapses, spk, tmseries, G_EXC, G_INH );
 
   free(synapses);
