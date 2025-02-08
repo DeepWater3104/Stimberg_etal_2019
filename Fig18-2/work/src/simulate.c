@@ -38,6 +38,7 @@ int main()
     }else{
       spike = 0;
     }
+    //spike = 0;
     update_syn( &syn[0], spike );
     fprintf(fp, " %f %f %f %f %f %f %f %f %f %f\n", t*DT, mLR[0].Gamma_A, mLR[1].Gamma_A, mLR[0].I, mLR[1].I, mLR[0].C, mLR[1].C, mLR[0].h, mLR[1].h, syn[0].Y_S);
   }
