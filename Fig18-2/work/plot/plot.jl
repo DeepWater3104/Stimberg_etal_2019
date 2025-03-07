@@ -1,11 +1,21 @@
 using Plots
 using DelimitedFiles
 using LaTeXStrings
+using Printf
+using StatsBase
 
 trace = readdlm("../data/output.dat")
 
 p1 = plot(trace[:, 1], trace[:, 2], label="", xaxis=false)
 plot!(p1, trace[:, 1], trace[:, 3], ylabel=L"\Gamma_{A}", label="", xaxis=false)
+
+if trace[:, 2] == trace[:, 3]
+  @printf("debug1\n")
+else
+  @printf("debug2\n")
+  @printf("rmsd: %f", rmsd(trace[:, 2], trace[:, 3]))
+end
+
 p2 = plot(trace[:, 1], trace[:, 4], label="", xaxis=false)
 plot!(p2, trace[:, 1], trace[:, 5], ylabel=L"I[\textrm{\mu M}]", label="", xaxis=false)
 p3 = plot(trace[:, 1], trace[:, 6], label="", xaxis=false)
